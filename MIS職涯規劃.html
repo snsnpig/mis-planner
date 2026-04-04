@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MIS規劃">
+<meta name="theme-color" content="#1a1f2e">
+<title>MIS 職涯規劃</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1219;
+  --bg2: #161b27;
+  --bg3: #1e253a;
+  --bg4: #252d44;
+  --text: #e8eaf2;
+  --text2: #8892a4;
+  --text3: #5a6478;
+  --blue: #4d9de0;
+  --blue-bg: rgba(77,157,224,0.12);
+  --green: #52c48a;
+  --green-bg: rgba(82,196,138,0.12);
+  --purple: #9b7fe8;
+  --purple-bg: rgba(155,127,232,0.12);
+  --amber: #f0a500;
+  --amber-bg: rgba(240,165,0,0.12);
+  --red: #e05c5c;
+  --border: rgba(255,255,255,0.07);
+  --radius: 14px;
+  --radius-sm: 9px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow-x: hidden;
+}
+/* ── Layout ── */
+.shell { display: flex; flex-direction: column; height: 100vh; height: -webkit-fill-available; }
+.header {
+  padding: env(safe-area-inset-top, 12px) 18px 14px;
+  padding-top: calc(env(safe-area-inset-top, 12px) + 10px);
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.header-row { display: flex; align-items: center; justify-content: space-between; }
+.app-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+.app-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.countdown-badge {
+  font-size: 11px; font-weight: 500;
+  background: var(--blue-bg); color: var(--blue);
+  padding: 5px 10px; border-radius: 20px;
+  border: 1px solid rgba(77,157,224,0.2);
+}
+.phase-strip {
+  display: flex; gap: 6px; margin-top: 12px; overflow-x: auto;
+  scrollbar-width: none; padding-bottom: 2px;
+}
+.phase-strip::-webkit-scrollbar { display: none; }
+.phase-chip {
+  flex-shrink: 0; padding: 5px 12px; border-radius: 20px;
+  font-size: 11px; font-weight: 500; cursor: pointer;
+  border: 1px solid transparent; transition: all .2s;
+}
+.chip-sys { background: var(--blue-bg); color: var(--blue); border-color: rgba(77,157,224,.25); }
+.chip-adm { background: var(--green-bg); color: var(--green); border-color: rgba(82,196,138,.25); }
+.chip-mis { background: var(--purple-bg); color: var(--purple); border-color: rgba(155,127,232,.25); }
+.scroll-area { flex: 1; overflow-y: auto; padding: 16px 16px 20px; -webkit-overflow-scrolling: touch; }
+.nav {
+  flex-shrink: 0; display: flex; background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.nav-btn {
+  flex: 1; padding: 12px 0 10px; background: none; border: none;
+  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  color: var(--text3); font-family: inherit; transition: color .2s;
+}
+.nav-btn.on { color: var(--blue); }
+.nav-icon { font-size: 20px; line-height: 1; }
+.nav-label { font-size: 10px; font-weight: 500; }
+/* ── Sections ── */
+.sec { display: none; }
+.sec.on { display: block; }
+/* ── Cards ── */
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.card-title {
+  font-size: 10px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 14px;
+}
+/* ── Metrics ── */
+.grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.metric {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 13px 14px;
+}
+.mlabel { font-size: 10px; color: var(--text3); margin-bottom: 5px; }
+.mval { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
+.msub { font-size: 10px; color: var(--text3); margin-top: 3px; }
+/* ── Timeline ── */
+.tl { position: relative; padding-left: 20px; }
+.tl-line { position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: var(--border); }
+.tli { position: relative; margin-bottom: 14px; }
+.tli:last-child { margin-bottom: 0; }
+.tl-dot {
+  position: absolute; left: -18px; top: 3px;
+  width: 9px; height: 9px; border-radius: 50%;
+}
+.dot-now { background: var(--blue); box-shadow: 0 0 8px rgba(77,157,224,.6); }
+.dot-todo { background: var(--bg4); border: 1px solid var(--text3); }
+.tl-when { font-size: 10px; color: var(--text3); }
+.tl-what { font-size: 13px; color: var(--text); margin-top: 1px; font-weight: 500; }
+/* ── Progress bars ── */
+.prow { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.prow:last-child { margin-bottom: 0; }
+.plabel { font-size: 12px; color: var(--text2); width: 110px; flex-shrink: 0; }
+.ptrack { flex: 1; height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+.pfill { height: 100%; border-radius: 3px; transition: width .4s; }
+.ppct { font-size: 11px; color: var(--text3); width: 30px; text-align: right; flex-shrink: 0; }
+/* ── Tasks ── */
+.titem {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 11px 12px; background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); margin-bottom: 7px; cursor: pointer;
+  transition: background .15s; -webkit-user-select: none;
+}
+.titem:last-child { margin-bottom: 0; }
+.titem:active { background: var(--bg4); }
+.tcheck {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 1.5px solid var(--text3); flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: white; transition: all .15s;
+}
+.tcheck.on { background: var(--green); border-color: var(--green); }
+.ttext { font-size: 13px; color: var(--text); flex: 1; line-height: 1.5; }
+.ttext.done { text-decoration: line-through; color: var(--text3); }
+.ttag {
+  font-size: 10px; padding: 2px 8px; border-radius: 10px;
+  flex-shrink: 0; align-self: flex-start; margin-top: 1px; font-weight: 500;
+}
+.tg-work { background: var(--blue-bg); color: var(--blue); }
+.tg-study { background: var(--green-bg); color: var(--green); }
+.tg-mis { background: var(--purple-bg); color: var(--purple); }
+.tg-cert { background: var(--amber-bg); color: var(--amber); }
+.add-area { margin-top: 12px; }
+.add-input {
+  width: 100%; padding: 11px 14px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text); font-family: inherit;
+  font-size: 14px; outline: none; margin-bottom: 8px;
+  transition: border-color .2s;
+}
+.add-input:focus { border-color: rgba(77,157,224,.5); }
+.add-input::placeholder { color: var(--text3); }
+.add-row2 { display: flex; gap: 8px; }
+.tag-sel {
+  flex: 1; padding: 10px 12px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text2); font-family: inherit;
+  font-size: 13px; outline: none;
+}
+.add-btn {
+  padding: 10px 18px; background: var(--blue); border: none;
+  border-radius: var(--radius-sm); color: white; font-family: inherit;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: opacity .15s;
+}
+.add-btn:active { opacity: .8; }
+/* ── Skills ── */
+.scard {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 13px; margin-bottom: 8px;
+}
+.scard:last-child { margin-bottom: 0; }
+.srow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.sname { font-size: 13px; font-weight: 500; color: var(--text); }
+.spct { font-size: 12px; color: var(--text3); }
+.strack { height: 6px; background: var(--bg4); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
+.sfill { height: 100%; border-radius: 3px; transition: width .3s; }
+.sadj { display: flex; gap: 6px; justify-content: flex-end; }
+.sadj-btn {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--bg4); border: 1px solid var(--border);
+  color: var(--text2); font-size: 16px; font-weight: 500;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.sadj-btn:active { background: var(--bg2); }
+/* ── Calendar ── */
+.mrow {
+  display: grid; grid-template-columns: 62px 1fr 1fr 1fr;
+  gap: 5px; margin-bottom: 6px; align-items: start;
+}
+.mlbl {
+  font-size: 10px; font-weight: 700; padding: 5px 0;
+  border-radius: 6px; text-align: center; line-height: 1.3;
+}
+.mcell {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 7px; padding: 5px 7px; font-size: 11px;
+  color: var(--text2); min-height: 30px; line-height: 1.4;
+  outline: none; cursor: text; -webkit-user-select: text;
+}
+.mcell:focus { border-color: rgba(77,157,224,.4); color: var(--text); }
+.mcell.has { color: var(--text); }
+.cal-header {
+  display: grid; grid-template-columns: 62px 1fr 1fr 1fr;
+  gap: 5px; margin-bottom: 8px;
+}
+.chdr { font-size: 10px; font-weight: 700; text-align: center; padding: 3px 0; }
+/* ── Empty ── */
+.empty { font-size: 13px; color: var(--text3); text-align: center; padding: 24px 0; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-row">
+      <div>
+        <div class="app-title">MIS 職涯規劃</div>
+        <div class="app-sub" id="datelabel"></div>
+      </div>
+      <div class="countdown-badge" id="cntdown">計算中...</div>
+    </div>
+    <div class="phase-strip">
+      <div class="phase-chip chip-sys">系統工程師 Apr–Jun 2026</div>
+      <div class="phase-chip chip-adm">行政助理 Jul 2026–Jul 2027</div>
+      <div class="phase-chip chip-mis">目標：MIS 工程師</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="scroll-area" id="scroll-area">
+
+    <!-- 總覽 -->
+    <div id="sec-dashboard" class="sec on">
+      <div class="grid4">
+        <div class="metric"><div class="mlabel">距 MIS 轉職</div><div class="mval" id="m-days">--</div><div class="msub">天</div></div>
+        <div class="metric"><div class="mlabel">今日完成</div><div class="mval" id="m-done">0</div><div class="msub">項任務</div></div>
+        <div class="metric"><div class="mlabel">技能平均</div><div class="mval" id="m-skill">0</div><div class="msub">% 進度</div></div>
+        <div class="metric"><div class="mlabel">當前階段</div><div class="mval" id="m-phase" style="font-size:14px;padding-top:4px;line-height:1.3">--</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">職涯時間軸</div>
+        <div class="tl">
+          <div class="tl-line"></div>
+          <div class="tli"><div class="tl-dot dot-now"></div><div class="tl-when">2026 Apr ← 現在</div><div class="tl-what">系統工程師工作開始</div></div>
+          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Apr – Jun</div><div class="tl-what">SQL 實戰 + Linux 基礎指令</div></div>
+          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Jun</div><div class="tl-what">TOEIC 報考，目標 650+</div></div>
+          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Jul</div><div class="tl-what">行政助理工作開始</div></div>
+          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Jul – Dec</div><div class="tl-what">VMware 虛擬化 + 網路架構自學</div></div>
+          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2027 Jan – Jun</div><div class="tl-what">建立技術知識庫，準備 MIS 履歷</div></div>
+          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2027 Jul</div><div class="tl-what">投遞 MIS 職缺，正式轉職！</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">技能快覽</div>
+        <div id="skill-summary"></div>
+      </div>
+    </div>
+
+    <!-- 待辦 -->
+    <div id="sec-tasks" class="sec">
+      <div class="card">
+        <div class="card-title">今日待辦</div>
+        <div id="task-list"></div>
+        <div class="add-area">
+          <input class="add-input" id="new-text" placeholder="輸入新任務...">
+          <div class="add-row2">
+            <select class="tag-sel" id="new-tag">
+              <option value="work">💼 工作</option>
+              <option value="study">📚 學業</option>
+              <option value="mis">🖥 MIS技能</option>
+              <option value="cert">📝 證照</option>
+            </select>
+            <button class="add-btn" id="btn-add">新增</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技能 -->
+    <div id="sec-skills" class="sec">
+      <div class="card">
+        <div class="card-title">MIS 技能樹進度</div>
+        <div id="skill-grid"></div>
+      </div>
+    </div>
+
+    <!-- 月度 -->
+    <div id="sec-calendar" class="sec">
+      <div class="card">
+        <div class="card-title">月度計畫 2026 Apr → 2027 Jul</div>
+        <div class="cal-header">
+          <div></div>
+          <div class="chdr" style="color:var(--blue)">工作</div>
+          <div class="chdr" style="color:var(--green)">學業</div>
+          <div class="chdr" style="color:var(--purple)">MIS目標</div>
+        </div>
+        <div id="month-rows"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="nav">
+    <button class="nav-btn on" data-sec="dashboard"><div class="nav-icon">◎</div><div class="nav-label">總覽</div></button>
+    <button class="nav-btn" data-sec="tasks"><div class="nav-icon">✓</div><div class="nav-label">待辦</div></button>
+    <button class="nav-btn" data-sec="skills"><div class="nav-icon">↑</div><div class="nav-label">技能</div></button>
+    <button class="nav-btn" data-sec="calendar"><div class="nav-icon">▦</div><div class="nav-label">月度</div></button>
+  </nav>
+
+</div>
+
+<script>
+const SK = 'mis_ios_v1';
+const tagLabel = {work:'工作',study:'學業',mis:'MIS技能',cert:'證照'};
+const tagCls = {work:'tg-work',study:'tg-study',mis:'tg-mis',cert:'tg-cert'};
+
+const defTasks = [
+  {id:1,text:'SQL 多表關聯練習 30 分鐘',tag:'mis',done:false},
+  {id:2,text:'整理今日工作筆記',tag:'work',done:false},
+  {id:3,text:'TOEIC 單字背誦 20 題',tag:'cert',done:false},
+  {id:4,text:'Linux 基礎指令練習',tag:'mis',done:false},
+];
+
+const defSkills = [
+  {name:'SQL / 資料庫',pct:10,color:'#4d9de0'},
+  {name:'Linux 指令',pct:5,color:'#52c48a'},
+  {name:'網路架構',pct:5,color:'#9b7fe8'},
+  {name:'VMware 虛擬化',pct:0,color:'#f0a500'},
+  {name:'Excel 進階',pct:15,color:'#52c48a'},
+  {name:'英文（TOEIC）',pct:20,color:'#e05c5c'},
+  {name:'資安基礎',pct:5,color:'#9b7fe8'},
+  {name:'Shell Script',pct:0,color:'#8892a4'},
+];
+
+const months = [
+  {key:'2026-04',label:'2026\nApr',phase:'sys',def:{work:'系統工程師報到',study:'學期末衝刺',mis:'SQL 基礎語法'}},
+  {key:'2026-05',label:'2026\nMay',phase:'sys',def:{work:'熟悉 IT 維護流程',study:'期末考準備',mis:'SQL 多表查詢'}},
+  {key:'2026-06',label:'2026\nJun',phase:'sys',def:{work:'整理技術筆記',study:'學期結束',mis:'TOEIC 考試'}},
+  {key:'2026-07',label:'2026\nJul',phase:'adm',def:{work:'行政助理報到',study:'',mis:'Linux 基礎指令'}},
+  {key:'2026-08',label:'2026\nAug',phase:'adm',def:{work:'熟悉行政系統',study:'',mis:'Linux 進階'}},
+  {key:'2026-09',label:'2026\nSep',phase:'adm',def:{work:'自動化重複任務',study:'',mis:'VMware 基礎'}},
+  {key:'2026-10',label:'2026\nOct',phase:'adm',def:{work:'建立工作文件',study:'',mis:'網路架構概念'}},
+  {key:'2026-11',label:'2026\nNov',phase:'adm',def:{work:'',study:'',mis:'Veeam 備份管理'}},
+  {key:'2026-12',label:'2026\nDec',phase:'adm',def:{work:'年度工作整理',study:'',mis:'資安基礎'}},
+  {key:'2027-01',label:'2027\nJan',phase:'adm',def:{work:'',study:'',mis:'Shell Script'}},
+  {key:'2027-02',label:'2027\nFeb',phase:'adm',def:{work:'',study:'',mis:'AD / DNS 概念'}},
+  {key:'2027-03',label:'2027\nMar',phase:'adm',def:{work:'',study:'',mis:'整理知識庫'}},
+  {key:'2027-04',label:'2027\nApr',phase:'adm',def:{work:'',study:'',mis:'模擬面試題'}},
+  {key:'2027-05',label:'2027\nMay',phase:'adm',def:{work:'',study:'',mis:'撰寫 MIS 履歷'}},
+  {key:'2027-06',label:'2027\nJun',phase:'adm',def:{work:'',study:'',mis:'投遞職缺準備'}},
+  {key:'2027-07',label:'2027\nJul',phase:'mis',def:{work:'轉職 MIS！',study:'',mis:'目標達成 🎉'}},
+];
+
+const phBg = {sys:'rgba(77,157,224,0.15)',adm:'rgba(82,196,138,0.15)',mis:'rgba(155,127,232,0.15)'};
+const phTx = {sys:'#4d9de0',adm:'#52c48a',mis:'#9b7fe8'};
+
+let D = {tasks: defTasks.map(t=>({...t})), skills: defSkills.map(s=>({...s})), months: {}};
+
+function save() {
+  try { localStorage.setItem(SK, JSON.stringify(D)); } catch(e) {}
+}
+function load() {
+  try {
+    const r = localStorage.getItem(SK);
+    if (r) {
+      const p = JSON.parse(r);
+      if (p.tasks) D.tasks = p.tasks;
+      if (p.skills) D.skills = p.skills;
+      if (p.months) D.months = p.months;
+    }
+  } catch(e) {}
+}
+
+function init() {
+  load();
+  const now = new Date();
+  document.getElementById('datelabel').textContent = now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
+  const diff = Math.ceil((new Date('2027-07-01') - now) / 864e5);
+  document.getElementById('cntdown').textContent = diff + ' 天後轉職';
+  document.getElementById('m-days').textContent = diff;
+  let ph;
+  if (now < new Date('2026-07-01')) ph = '系統工程師';
+  else if (now < new Date('2027-07-01')) ph = '行政助理';
+  else ph = 'MIS 工程師';
+  document.getElementById('m-phase').textContent = ph;
+
+  // Nav
+  document.querySelectorAll('.nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const sec = btn.getAttribute('data-sec');
+      document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
+      document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('on'); });
+      document.getElementById('sec-' + sec).classList.add('on');
+      btn.classList.add('on');
+      document.getElementById('scroll-area').scrollTop = 0;
+    });
+  });
+
+  document.getElementById('btn-add').addEventListener('click', addTask);
+  document.getElementById('new-text').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') addTask();
+  });
+
+  renderAll();
+}
+
+function renderAll() {
+  renderDashboard();
+  renderTasks();
+  renderSkills();
+  renderMonths();
+}
+
+function renderDashboard() {
+  const done = D.tasks.filter(function(t){ return t.done; }).length;
+  document.getElementById('m-done').textContent = done;
+  const avg = Math.round(D.skills.reduce(function(s,sk){ return s + sk.pct; }, 0) / D.skills.length);
+  document.getElementById('m-skill').textContent = avg;
+  const el = document.getElementById('skill-summary');
+  el.innerHTML = D.skills.map(function(s) {
+    return '<div class="prow"><div class="plabel">' + s.name + '</div><div class="ptrack"><div class="pfill" style="width:' + s.pct + '%;background:' + s.color + '"></div></div><div class="ppct">' + s.pct + '%</div></div>';
+  }).join('');
+}
+
+function renderTasks() {
+  const list = document.getElementById('task-list');
+  if (!D.tasks.length) { list.innerHTML = '<div class="empty">還沒有任務，新增一個吧！</div>'; return; }
+  list.innerHTML = D.tasks.map(function(t, i) {
+    return '<div class="titem" data-i="' + i + '"><div class="tcheck' + (t.done ? ' on' : '') + '">' + (t.done ? '✓' : '') + '</div><div class="ttext' + (t.done ? ' done' : '') + '">' + t.text + '</div><span class="ttag ' + (tagCls[t.tag] || 'tg-work') + '">' + (tagLabel[t.tag] || t.tag) + '</span></div>';
+  }).join('');
+  list.querySelectorAll('.titem').forEach(function(el) {
+    el.addEventListener('click', function() {
+      const i = parseInt(el.getAttribute('data-i'));
+      D.tasks[i].done = !D.tasks[i].done;
+      save(); renderAll();
+    });
+  });
+}
+
+function addTask() {
+  const inp = document.getElementById('new-text');
+  const tag = document.getElementById('new-tag').value;
+  const txt = inp.value.trim();
+  if (!txt) return;
+  D.tasks.push({id: Date.now(), text: txt, tag: tag, done: false});
+  inp.value = '';
+  save(); renderAll();
+}
+
+function renderSkills() {
+  const grid = document.getElementById('skill-grid');
+  grid.innerHTML = D.skills.map(function(s, i) {
+    return '<div class="scard"><div class="srow"><div class="sname">' + s.name + '</div><div class="spct">' + s.pct + '%</div></div><div class="strack"><div class="sfill" style="width:' + s.pct + '%;background:' + s.color + '"></div></div><div class="sadj"><button class="sadj-btn" data-i="' + i + '" data-d="-5">−</button><button class="sadj-btn" data-i="' + i + '" data-d="5">＋</button></div></div>';
+  }).join('');
+  grid.querySelectorAll('.sadj-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const i = parseInt(btn.getAttribute('data-i'));
+      const d = parseInt(btn.getAttribute('data-d'));
+      D.skills[i].pct = Math.max(0, Math.min(100, D.skills[i].pct + d));
+      save(); renderAll();
+    });
+  });
+}
+
+function renderMonths() {
+  const el = document.getElementById('month-rows');
+  el.innerHTML = months.map(function(m) {
+    const d = Object.assign({}, m.def, D.months[m.key] || {});
+    return '<div class="mrow">' +
+      '<div class="mlbl" style="background:' + phBg[m.phase] + ';color:' + phTx[m.phase] + '">' + m.label + '</div>' +
+      '<div class="mcell' + (d.work ? ' has' : '') + '" contenteditable="true" data-key="' + m.key + '" data-field="work">' + (d.work || '') + '</div>' +
+      '<div class="mcell' + (d.study ? ' has' : '') + '" contenteditable="true" data-key="' + m.key + '" data-field="study">' + (d.study || '') + '</div>' +
+      '<div class="mcell' + (d.mis ? ' has' : '') + '" contenteditable="true" data-key="' + m.key + '" data-field="mis">' + (d.mis || '') + '</div>' +
+    '</div>';
+  }).join('');
+  el.querySelectorAll('.mcell').forEach(function(cell) {
+    cell.addEventListener('blur', function() {
+      const key = cell.getAttribute('data-key');
+      const field = cell.getAttribute('data-field');
+      if (!D.months[key]) D.months[key] = {};
+      D.months[key][field] = cell.textContent.trim();
+      save();
+    });
+  });
+}
+
+init();
+</script>
+</body>
+</html>
