@@ -6,285 +6,192 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="MIS規劃">
-<meta name="theme-color" content="#1a1f2e">
+<meta name="theme-color" content="#0f1219">
 <title>MIS 職涯規劃</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f1219;
-  --bg2: #161b27;
-  --bg3: #1e253a;
-  --bg4: #252d44;
-  --text: #e8eaf2;
-  --text2: #8892a4;
-  --text3: #5a6478;
-  --blue: #4d9de0;
-  --blue-bg: rgba(77,157,224,0.12);
-  --green: #52c48a;
-  --green-bg: rgba(82,196,138,0.12);
-  --purple: #9b7fe8;
-  --purple-bg: rgba(155,127,232,0.12);
-  --amber: #f0a500;
-  --amber-bg: rgba(240,165,0,0.12);
-  --red: #e05c5c;
+  --bg: #0f1219; --bg2: #161b27; --bg3: #1e253a; --bg4: #252d44;
+  --text: #e8eaf2; --text2: #8892a4; --text3: #5a6478;
+  --blue: #4d9de0; --blue-bg: rgba(77,157,224,0.12);
+  --green: #52c48a; --green-bg: rgba(82,196,138,0.12);
+  --purple: #9b7fe8; --purple-bg: rgba(155,127,232,0.12);
+  --amber: #f0a500; --amber-bg: rgba(240,165,0,0.12);
+  --red: #e05c5c; --red-bg: rgba(224,92,92,0.12);
   --border: rgba(255,255,255,0.07);
-  --radius: 14px;
-  --radius-sm: 9px;
+  --r: 14px; --rs: 9px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  font-family: 'Noto Sans TC', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  overflow-x: hidden;
-}
-/* ── Layout ── */
-.shell { display: flex; flex-direction: column; height: 100vh; height: -webkit-fill-available; }
-.header {
-  padding: env(safe-area-inset-top, 12px) 18px 14px;
-  padding-top: calc(env(safe-area-inset-top, 12px) + 10px);
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.header-row { display: flex; align-items: center; justify-content: space-between; }
-.app-title { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
-.app-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.countdown-badge {
-  font-size: 11px; font-weight: 500;
-  background: var(--blue-bg); color: var(--blue);
-  padding: 5px 10px; border-radius: 20px;
-  border: 1px solid rgba(77,157,224,0.2);
-}
-.phase-strip {
-  display: flex; gap: 6px; margin-top: 12px; overflow-x: auto;
-  scrollbar-width: none; padding-bottom: 2px;
-}
-.phase-strip::-webkit-scrollbar { display: none; }
-.phase-chip {
-  flex-shrink: 0; padding: 5px 12px; border-radius: 20px;
-  font-size: 11px; font-weight: 500; cursor: pointer;
-  border: 1px solid transparent; transition: all .2s;
-}
-.chip-sys { background: var(--blue-bg); color: var(--blue); border-color: rgba(77,157,224,.25); }
-.chip-adm { background: var(--green-bg); color: var(--green); border-color: rgba(82,196,138,.25); }
-.chip-mis { background: var(--purple-bg); color: var(--purple); border-color: rgba(155,127,232,.25); }
-.scroll-area { flex: 1; overflow-y: auto; padding: 16px 16px 20px; -webkit-overflow-scrolling: touch; }
-.nav {
-  flex-shrink: 0; display: flex; background: var(--bg2);
-  border-top: 1px solid var(--border);
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-.nav-btn {
-  flex: 1; padding: 12px 0 10px; background: none; border: none;
-  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  color: var(--text3); font-family: inherit; transition: color .2s;
-}
-.nav-btn.on { color: var(--blue); }
-.nav-icon { font-size: 20px; line-height: 1; }
-.nav-label { font-size: 10px; font-weight: 500; }
-/* ── Sections ── */
-.sec { display: none; }
-.sec.on { display: block; }
-/* ── Cards ── */
-.card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
-}
-.card-title {
-  font-size: 10px; font-weight: 700; color: var(--text3);
-  text-transform: uppercase; letter-spacing: .1em; margin-bottom: 14px;
-}
-/* ── Metrics ── */
-.grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.metric {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 13px 14px;
-}
-.mlabel { font-size: 10px; color: var(--text3); margin-bottom: 5px; }
-.mval { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
-.msub { font-size: 10px; color: var(--text3); margin-top: 3px; }
-/* ── Timeline ── */
-.tl { position: relative; padding-left: 20px; }
-.tl-line { position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: var(--border); }
-.tli { position: relative; margin-bottom: 14px; }
-.tli:last-child { margin-bottom: 0; }
-.tl-dot {
-  position: absolute; left: -18px; top: 3px;
-  width: 9px; height: 9px; border-radius: 50%;
-}
-.dot-now { background: var(--blue); box-shadow: 0 0 8px rgba(77,157,224,.6); }
-.dot-todo { background: var(--bg4); border: 1px solid var(--text3); }
-.tl-when { font-size: 10px; color: var(--text3); }
-.tl-what { font-size: 13px; color: var(--text); margin-top: 1px; font-weight: 500; }
-/* ── Progress bars ── */
-.prow { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
-.prow:last-child { margin-bottom: 0; }
-.plabel { font-size: 12px; color: var(--text2); width: 110px; flex-shrink: 0; }
-.ptrack { flex: 1; height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
-.pfill { height: 100%; border-radius: 3px; transition: width .4s; }
-.ppct { font-size: 11px; color: var(--text3); width: 30px; text-align: right; flex-shrink: 0; }
-/* ── Tasks ── */
-.titem {
-  display: flex; align-items: flex-start; gap: 11px;
-  padding: 11px 12px; background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); margin-bottom: 7px; cursor: pointer;
-  transition: background .15s; -webkit-user-select: none;
-}
-.titem:last-child { margin-bottom: 0; }
-.titem:active { background: var(--bg4); }
-.tcheck {
-  width: 18px; height: 18px; border-radius: 5px;
-  border: 1.5px solid var(--text3); flex-shrink: 0; margin-top: 1px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: white; transition: all .15s;
-}
-.tcheck.on { background: var(--green); border-color: var(--green); }
-.ttext { font-size: 13px; color: var(--text); flex: 1; line-height: 1.5; }
-.ttext.done { text-decoration: line-through; color: var(--text3); }
-.ttag {
-  font-size: 10px; padding: 2px 8px; border-radius: 10px;
-  flex-shrink: 0; align-self: flex-start; margin-top: 1px; font-weight: 500;
-}
-.tg-work { background: var(--blue-bg); color: var(--blue); }
-.tg-study { background: var(--green-bg); color: var(--green); }
-.tg-mis { background: var(--purple-bg); color: var(--purple); }
-.tg-cert { background: var(--amber-bg); color: var(--amber); }
-.add-area { margin-top: 12px; }
-.add-input {
-  width: 100%; padding: 11px 14px;
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text); font-family: inherit;
-  font-size: 14px; outline: none; margin-bottom: 8px;
-  transition: border-color .2s;
-}
-.add-input:focus { border-color: rgba(77,157,224,.5); }
-.add-input::placeholder { color: var(--text3); }
-.add-row2 { display: flex; gap: 8px; }
-.tag-sel {
-  flex: 1; padding: 10px 12px;
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); color: var(--text2); font-family: inherit;
-  font-size: 13px; outline: none;
-}
-.add-btn {
-  padding: 10px 18px; background: var(--blue); border: none;
-  border-radius: var(--radius-sm); color: white; font-family: inherit;
-  font-size: 14px; font-weight: 600; cursor: pointer;
-  transition: opacity .15s;
-}
-.add-btn:active { opacity: .8; }
-/* ── Skills ── */
-.scard {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 13px; margin-bottom: 8px;
-}
-.scard:last-child { margin-bottom: 0; }
-.srow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.sname { font-size: 13px; font-weight: 500; color: var(--text); }
-.spct { font-size: 12px; color: var(--text3); }
-.strack { height: 6px; background: var(--bg4); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
-.sfill { height: 100%; border-radius: 3px; transition: width .3s; }
-.sadj { display: flex; gap: 6px; justify-content: flex-end; }
-.sadj-btn {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: var(--bg4); border: 1px solid var(--border);
-  color: var(--text2); font-size: 16px; font-weight: 500;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background .15s;
-}
-.sadj-btn:active { background: var(--bg2); }
-/* ── Calendar ── */
-.mrow {
-  display: grid; grid-template-columns: 62px 1fr 1fr 1fr;
-  gap: 5px; margin-bottom: 6px; align-items: start;
-}
-.mlbl {
-  font-size: 10px; font-weight: 700; padding: 5px 0;
-  border-radius: 6px; text-align: center; line-height: 1.3;
-}
-.mcell {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 7px; padding: 5px 7px; font-size: 11px;
-  color: var(--text2); min-height: 30px; line-height: 1.4;
-  outline: none; cursor: text; -webkit-user-select: text;
-}
-.mcell:focus { border-color: rgba(77,157,224,.4); color: var(--text); }
-.mcell.has { color: var(--text); }
-.cal-header {
-  display: grid; grid-template-columns: 62px 1fr 1fr 1fr;
-  gap: 5px; margin-bottom: 8px;
-}
-.chdr { font-size: 10px; font-weight: 700; text-align: center; padding: 3px 0; }
-/* ── Empty ── */
-.empty { font-size: 13px; color: var(--text3); text-align: center; padding: 24px 0; }
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;min-height:-webkit-fill-available;overflow-x:hidden}
+.shell{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
+/* Header */
+.header{padding:calc(env(safe-area-inset-top,12px) + 10px) 18px 14px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.hrow{display:flex;align-items:center;justify-content:space-between}
+.app-title{font-size:18px;font-weight:700;color:var(--text)}
+.app-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.badge{font-size:11px;font-weight:500;background:var(--blue-bg);color:var(--blue);padding:5px 10px;border-radius:20px;border:1px solid rgba(77,157,224,.2)}
+.phase-strip{display:flex;gap:6px;margin-top:12px;overflow-x:auto;scrollbar-width:none}
+.phase-strip::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid transparent}
+.chip-sys{background:var(--blue-bg);color:var(--blue);border-color:rgba(77,157,224,.25)}
+.chip-adm{background:var(--green-bg);color:var(--green);border-color:rgba(82,196,138,.25)}
+.chip-mis{background:var(--purple-bg);color:var(--purple);border-color:rgba(155,127,232,.25)}
+/* Scroll */
+.scroll{flex:1;overflow-y:auto;padding:16px 16px 20px;-webkit-overflow-scrolling:touch}
+/* Nav */
+.nav{flex-shrink:0;display:flex;background:var(--bg2);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom,0)}
+.nb{flex:1;padding:10px 0 8px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text3);font-family:inherit;transition:color .2s}
+.nb.on{color:var(--blue)}
+.ni{font-size:18px;line-height:1}
+.nl{font-size:10px;font-weight:500}
+/* Sections */
+.sec{display:none}.sec.on{display:block}
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.ctitle{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+/* Metrics */
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:13px 14px}
+.mlabel{font-size:10px;color:var(--text3);margin-bottom:5px}
+.mval{font-size:26px;font-weight:700;color:var(--text);line-height:1}
+.msub{font-size:10px;color:var(--text3);margin-top:3px}
+/* Progress */
+.prow{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.prow:last-child{margin-bottom:0}
+.plabel{font-size:12px;color:var(--text2);width:100px;flex-shrink:0}
+.ptrack{flex:1;height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.pfill{height:100%;border-radius:3px;transition:width .4s}
+.ppct{font-size:11px;color:var(--text3);width:30px;text-align:right;flex-shrink:0}
+/* Tasks */
+.titem{display:flex;align-items:flex-start;gap:10px;padding:10px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:7px}
+.titem:last-child{margin-bottom:0}
+.tcheck{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--text3);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:11px;color:white;cursor:pointer;transition:all .15s}
+.tcheck.on{background:var(--green);border-color:var(--green)}
+.ttext{font-size:13px;color:var(--text);flex:1;line-height:1.5;cursor:pointer}
+.ttext.done{text-decoration:line-through;color:var(--text3)}
+.ttag{font-size:10px;padding:2px 7px;border-radius:10px;flex-shrink:0;align-self:flex-start;margin-top:2px;font-weight:500}
+.tg-work{background:var(--blue-bg);color:var(--blue)}
+.tg-study{background:var(--green-bg);color:var(--green)}
+.tg-mis{background:var(--purple-bg);color:var(--purple)}
+.tg-cert{background:var(--amber-bg);color:var(--amber)}
+.tdel{width:24px;height:24px;border-radius:5px;background:none;border:none;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:-1px;transition:color .15s}
+.tdel:hover{color:var(--red)}
+/* Add task */
+.add-area{margin-top:12px}
+.add-input{width:100%;padding:10px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:13px;outline:none;margin-bottom:8px;transition:border-color .2s}
+.add-input:focus{border-color:rgba(77,157,224,.5)}
+.add-input::placeholder{color:var(--text3)}
+.add-row2{display:flex;gap:8px}
+.tag-sel{flex:1;padding:9px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text2);font-family:inherit;font-size:12px;outline:none}
+.add-btn{padding:9px 16px;background:var(--blue);border:none;border-radius:var(--rs);color:white;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.add-btn:active{opacity:.8}
+/* Skills */
+.skill-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.scard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:12px;margin-bottom:8px}
+.scard:last-child{margin-bottom:0}
+.srow{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.sname{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.sname-input{background:none;border:none;color:var(--text);font-family:inherit;font-size:13px;font-weight:500;width:100%;outline:none}
+.spct{font-size:12px;color:var(--text3);margin-left:8px}
+.strack{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;margin-bottom:7px}
+.sfill{height:100%;border-radius:3px;transition:width .3s}
+.sadj{display:flex;gap:5px;align-items:center}
+.sadj-btn{width:28px;height:28px;border-radius:7px;background:var(--bg4);border:1px solid var(--border);color:var(--text2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sadj-btn:active{background:var(--bg2)}
+.sdel{width:28px;height:28px;border-radius:7px;background:none;border:1px solid var(--border);color:var(--text3);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:4px}
+.sdel:hover{color:var(--red);border-color:var(--red-bg)}
+.add-skill-row{display:flex;gap:8px;margin-top:10px}
+.add-skill-input{flex:1;padding:9px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:13px;outline:none}
+.add-skill-input:focus{border-color:rgba(77,157,224,.4)}
+.add-skill-input::placeholder{color:var(--text3)}
+.add-skill-btn{padding:9px 14px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);color:var(--text2);font-family:inherit;font-size:13px;cursor:pointer}
+.add-skill-btn:active{background:var(--bg3)}
+/* Calendar */
+.mrow{display:grid;grid-template-columns:60px 1fr 1fr 1fr;gap:5px;margin-bottom:6px;align-items:start}
+.mlbl{font-size:10px;font-weight:700;padding:5px 0;border-radius:6px;text-align:center;line-height:1.4}
+.mcell{background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:5px 7px;font-size:11px;color:var(--text2);min-height:28px;line-height:1.4;outline:none;cursor:text;-webkit-user-select:text}
+.mcell:focus{border-color:rgba(77,157,224,.4);color:var(--text)}
+.mcell.has{color:var(--text)}
+.chdr{font-size:10px;font-weight:700;text-align:center;padding-bottom:5px}
+/* Diary / Learning log */
+.diary-date-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.diary-date-label{font-size:13px;font-weight:500;color:var(--text)}
+.date-nav{display:flex;gap:6px;align-items:center}
+.date-btn{width:30px;height:30px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.date-btn:active{background:var(--bg4)}
+.diary-section{margin-bottom:14px}
+.diary-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+.diary-textarea{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:13px;line-height:1.6;outline:none;resize:none;min-height:90px;transition:border-color .2s}
+.diary-textarea:focus{border-color:rgba(77,157,224,.4)}
+.diary-textarea::placeholder{color:var(--text3)}
+.save-btn{width:100%;padding:11px;background:var(--blue);border:none;border-radius:var(--rs);color:white;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+.save-btn:active{opacity:.8}
+/* AI Review */
+.ai-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.ai-intro{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+.ai-btn{width:100%;padding:13px;background:linear-gradient(135deg,rgba(155,127,232,.3),rgba(77,157,224,.3));border:1px solid rgba(155,127,232,.4);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;margin-bottom:10px}
+.ai-btn:active{opacity:.7}
+.ai-result{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:14px;font-size:13px;color:var(--text2);line-height:1.7;display:none;white-space:pre-wrap;word-break:break-word}
+.ai-result.on{display:block}
+.ai-loading{display:none;text-align:center;padding:20px;color:var(--text3);font-size:13px}
+.ai-loading.on{display:block}
+.dot-flashing{display:inline-flex;gap:5px;margin-top:8px}
+.dot-flashing span{width:7px;height:7px;border-radius:50%;background:var(--purple);animation:dot .9s infinite}
+.dot-flashing span:nth-child(2){animation-delay:.15s}
+.dot-flashing span:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.ai-section-title{font-size:11px;font-weight:700;color:var(--purple);margin-bottom:6px;margin-top:12px}
+.ai-section-title:first-child{margin-top:0}
+.diary-history{margin-top:6px}
+.history-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;margin-bottom:7px;cursor:pointer}
+.history-item:active{background:var(--bg4)}
+.hi-date{font-size:11px;color:var(--text3);margin-bottom:3px}
+.hi-preview{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{font-size:13px;color:var(--text3);text-align:center;padding:20px 0}
+.tag-count{font-size:11px;color:var(--text3);margin-left:6px}
 </style>
 </head>
 <body>
 <div class="shell">
-
-  <!-- Header -->
   <div class="header">
-    <div class="header-row">
-      <div>
-        <div class="app-title">MIS 職涯規劃</div>
-        <div class="app-sub" id="datelabel"></div>
-      </div>
-      <div class="countdown-badge" id="cntdown">計算中...</div>
+    <div class="hrow">
+      <div><div class="app-title">MIS 職涯規劃</div><div class="app-sub" id="datelabel"></div></div>
+      <div class="badge" id="cntdown"></div>
     </div>
     <div class="phase-strip">
-      <div class="phase-chip chip-sys">系統工程師 Apr–Jun 2026</div>
-      <div class="phase-chip chip-adm">行政助理 Jul 2026–Jul 2027</div>
-      <div class="phase-chip chip-mis">目標：MIS 工程師</div>
+      <div class="chip chip-sys">系統工程師 Apr–Jun 2026</div>
+      <div class="chip chip-adm">行政助理 Jul 2026–Jul 2027</div>
+      <div class="chip chip-mis">目標：MIS 工程師</div>
     </div>
   </div>
 
-  <!-- Content -->
-  <div class="scroll-area" id="scroll-area">
+  <div class="scroll" id="scroll">
 
     <!-- 總覽 -->
     <div id="sec-dashboard" class="sec on">
       <div class="grid4">
         <div class="metric"><div class="mlabel">距 MIS 轉職</div><div class="mval" id="m-days">--</div><div class="msub">天</div></div>
         <div class="metric"><div class="mlabel">今日完成</div><div class="mval" id="m-done">0</div><div class="msub">項任務</div></div>
-        <div class="metric"><div class="mlabel">技能平均</div><div class="mval" id="m-skill">0</div><div class="msub">% 進度</div></div>
-        <div class="metric"><div class="mlabel">當前階段</div><div class="mval" id="m-phase" style="font-size:14px;padding-top:4px;line-height:1.3">--</div></div>
+        <div class="metric"><div class="mlabel">技能平均</div><div class="mval" id="m-skill">0</div><div class="msub">%</div></div>
+        <div class="metric"><div class="mlabel">當前階段</div><div class="mval" id="m-phase" style="font-size:13px;padding-top:4px;line-height:1.35">--</div></div>
       </div>
-
       <div class="card">
-        <div class="card-title">職涯時間軸</div>
-        <div class="tl">
-          <div class="tl-line"></div>
-          <div class="tli"><div class="tl-dot dot-now"></div><div class="tl-when">2026 Apr ← 現在</div><div class="tl-what">系統工程師工作開始</div></div>
-          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Apr – Jun</div><div class="tl-what">SQL 實戰 + Linux 基礎指令</div></div>
-          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Jun</div><div class="tl-what">TOEIC 報考，目標 650+</div></div>
-          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Jul</div><div class="tl-what">行政助理工作開始</div></div>
-          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2026 Jul – Dec</div><div class="tl-what">VMware 虛擬化 + 網路架構自學</div></div>
-          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2027 Jan – Jun</div><div class="tl-what">建立技術知識庫，準備 MIS 履歷</div></div>
-          <div class="tli"><div class="tl-dot dot-todo"></div><div class="tl-when">2027 Jul</div><div class="tl-what">投遞 MIS 職缺，正式轉職！</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">技能快覽</div>
+        <div class="ctitle">技能進度快覽</div>
         <div id="skill-summary"></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">近期學習記錄</div>
+        <div id="recent-diary"></div>
       </div>
     </div>
 
     <!-- 待辦 -->
     <div id="sec-tasks" class="sec">
       <div class="card">
-        <div class="card-title">今日待辦</div>
+        <div class="ctitle">今日待辦 <span class="tag-count" id="task-count"></span></div>
         <div id="task-list"></div>
         <div class="add-area">
-          <input class="add-input" id="new-text" placeholder="輸入新任務...">
+          <input class="add-input" id="new-text" placeholder="新增任務...">
           <div class="add-row2">
             <select class="tag-sel" id="new-tag">
               <option value="work">💼 工作</option>
@@ -301,60 +208,111 @@ body {
     <!-- 技能 -->
     <div id="sec-skills" class="sec">
       <div class="card">
-        <div class="card-title">MIS 技能樹進度</div>
+        <div class="skill-header">
+          <div class="ctitle" style="margin-bottom:0">MIS 技能樹</div>
+        </div>
         <div id="skill-grid"></div>
+        <div class="add-skill-row">
+          <input class="add-skill-input" id="new-skill-name" placeholder="新增技能項目...">
+          <button class="add-skill-btn" id="btn-add-skill">＋ 新增</button>
+        </div>
       </div>
     </div>
 
-    <!-- 月度 -->
+    <!-- 月度計畫 -->
     <div id="sec-calendar" class="sec">
       <div class="card">
-        <div class="card-title">月度計畫 2026 Apr → 2027 Jul</div>
-        <div class="cal-header">
-          <div></div>
-          <div class="chdr" style="color:var(--blue)">工作</div>
-          <div class="chdr" style="color:var(--green)">學業</div>
-          <div class="chdr" style="color:var(--purple)">MIS目標</div>
+        <div class="ctitle">月度計畫 2026 Apr → 2027 Jul</div>
+        <div style="overflow-x:auto"><div style="min-width:480px">
+          <div style="display:grid;grid-template-columns:60px 1fr 1fr 1fr;gap:5px;padding-bottom:6px">
+            <div></div>
+            <div class="chdr" style="color:var(--blue)">工作</div>
+            <div class="chdr" style="color:var(--green)">學業</div>
+            <div class="chdr" style="color:var(--purple)">MIS目標</div>
+          </div>
+          <div id="month-rows"></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- 學習日記 -->
+    <div id="sec-diary" class="sec">
+      <div class="card">
+        <div class="diary-date-row">
+          <div class="diary-date-label" id="diary-date-label">今天</div>
+          <div class="date-nav">
+            <button class="date-btn" id="btn-prev-day">‹</button>
+            <button class="date-btn" id="btn-today">今</button>
+            <button class="date-btn" id="btn-next-day">›</button>
+          </div>
         </div>
-        <div id="month-rows"></div>
+        <div class="diary-section">
+          <div class="diary-label">今日學習內容</div>
+          <textarea class="diary-textarea" id="diary-learn" placeholder="今天學了什麼？遇到哪些問題？如何解決？"></textarea>
+        </div>
+        <div class="diary-section">
+          <div class="diary-label">心得與日記</div>
+          <textarea class="diary-textarea" id="diary-note" placeholder="今天的感受、想法或任何紀錄..."></textarea>
+        </div>
+        <button class="save-btn" id="btn-save-diary">儲存今日記錄</button>
+      </div>
+      <div class="card">
+        <div class="ctitle">歷史記錄</div>
+        <div id="diary-history"></div>
+      </div>
+    </div>
+
+    <!-- AI 回顧 -->
+    <div id="sec-ai" class="sec">
+      <div class="ai-card">
+        <div class="ctitle">AI 學習分析</div>
+        <div class="ai-intro">AI 會分析你所有的學習記錄、技能進度、待辦完成狀況，統整出你的學習模式，並建議未來應該加強哪些方向。</div>
+        <button class="ai-btn" id="btn-ai">✦ 產生 AI 學習分析報告</button>
+        <div class="ai-loading" id="ai-loading">
+          <div>分析你的學習記錄中...</div>
+          <div class="dot-flashing"><span></span><span></span><span></span></div>
+        </div>
+        <div class="ai-result" id="ai-result"></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">過去 AI 分析記錄</div>
+        <div id="ai-history"></div>
       </div>
     </div>
 
   </div>
 
-  <!-- Bottom Nav -->
   <nav class="nav">
-    <button class="nav-btn on" data-sec="dashboard"><div class="nav-icon">◎</div><div class="nav-label">總覽</div></button>
-    <button class="nav-btn" data-sec="tasks"><div class="nav-icon">✓</div><div class="nav-label">待辦</div></button>
-    <button class="nav-btn" data-sec="skills"><div class="nav-icon">↑</div><div class="nav-label">技能</div></button>
-    <button class="nav-btn" data-sec="calendar"><div class="nav-icon">▦</div><div class="nav-label">月度</div></button>
+    <button class="nb on" data-s="dashboard"><div class="ni">◎</div><div class="nl">總覽</div></button>
+    <button class="nb" data-s="tasks"><div class="ni">✓</div><div class="nl">待辦</div></button>
+    <button class="nb" data-s="skills"><div class="ni">↑</div><div class="nl">技能</div></button>
+    <button class="nb" data-s="calendar"><div class="ni">▦</div><div class="nl">月度</div></button>
+    <button class="nb" data-s="diary"><div class="ni">✎</div><div class="nl">日記</div></button>
+    <button class="nb" data-s="ai"><div class="ni">✦</div><div class="nl">AI回顧</div></button>
   </nav>
-
 </div>
 
 <script>
-const SK = 'mis_ios_v1';
+const SK = 'mis_v4';
 const tagLabel = {work:'工作',study:'學業',mis:'MIS技能',cert:'證照'};
 const tagCls = {work:'tg-work',study:'tg-study',mis:'tg-mis',cert:'tg-cert'};
+const SKILL_COLORS = ['#4d9de0','#52c48a','#9b7fe8','#f0a500','#e05c5c','#4dd0e1','#81c784','#ffb74d','#ba68c8','#4db6ac'];
 
 const defTasks = [
   {id:1,text:'SQL 多表關聯練習 30 分鐘',tag:'mis',done:false},
   {id:2,text:'整理今日工作筆記',tag:'work',done:false},
   {id:3,text:'TOEIC 單字背誦 20 題',tag:'cert',done:false},
-  {id:4,text:'Linux 基礎指令練習',tag:'mis',done:false},
 ];
-
 const defSkills = [
-  {name:'SQL / 資料庫',pct:10,color:'#4d9de0'},
-  {name:'Linux 指令',pct:5,color:'#52c48a'},
-  {name:'網路架構',pct:5,color:'#9b7fe8'},
-  {name:'VMware 虛擬化',pct:0,color:'#f0a500'},
-  {name:'Excel 進階',pct:15,color:'#52c48a'},
-  {name:'英文（TOEIC）',pct:20,color:'#e05c5c'},
-  {name:'資安基礎',pct:5,color:'#9b7fe8'},
-  {name:'Shell Script',pct:0,color:'#8892a4'},
+  {id:1,name:'SQL / 資料庫',pct:10,color:'#4d9de0'},
+  {id:2,name:'Linux 指令',pct:5,color:'#52c48a'},
+  {id:3,name:'網路架構',pct:5,color:'#9b7fe8'},
+  {id:4,name:'VMware 虛擬化',pct:0,color:'#f0a500'},
+  {id:5,name:'Excel 進階',pct:15,color:'#4dd0e1'},
+  {id:6,name:'英文（TOEIC）',pct:20,color:'#e05c5c'},
+  {id:7,name:'資安基礎',pct:5,color:'#ba68c8'},
+  {id:8,name:'Shell Script',pct:0,color:'#81c784'},
 ];
-
 const months = [
   {key:'2026-04',label:'2026\nApr',phase:'sys',def:{work:'系統工程師報到',study:'學期末衝刺',mis:'SQL 基礎語法'}},
   {key:'2026-05',label:'2026\nMay',phase:'sys',def:{work:'熟悉 IT 維護流程',study:'期末考準備',mis:'SQL 多表查詢'}},
@@ -364,7 +322,7 @@ const months = [
   {key:'2026-09',label:'2026\nSep',phase:'adm',def:{work:'自動化重複任務',study:'',mis:'VMware 基礎'}},
   {key:'2026-10',label:'2026\nOct',phase:'adm',def:{work:'建立工作文件',study:'',mis:'網路架構概念'}},
   {key:'2026-11',label:'2026\nNov',phase:'adm',def:{work:'',study:'',mis:'Veeam 備份管理'}},
-  {key:'2026-12',label:'2026\nDec',phase:'adm',def:{work:'年度工作整理',study:'',mis:'資安基礎'}},
+  {key:'2026-12',label:'2026\nDec',phase:'adm',def:{work:'年度工作整理',mis:'資安基礎',study:''}},
   {key:'2027-01',label:'2027\nJan',phase:'adm',def:{work:'',study:'',mis:'Shell Script'}},
   {key:'2027-02',label:'2027\nFeb',phase:'adm',def:{work:'',study:'',mis:'AD / DNS 概念'}},
   {key:'2027-03',label:'2027\nMar',phase:'adm',def:{work:'',study:'',mis:'整理知識庫'}},
@@ -373,138 +331,326 @@ const months = [
   {key:'2027-06',label:'2027\nJun',phase:'adm',def:{work:'',study:'',mis:'投遞職缺準備'}},
   {key:'2027-07',label:'2027\nJul',phase:'mis',def:{work:'轉職 MIS！',study:'',mis:'目標達成 🎉'}},
 ];
-
-const phBg = {sys:'rgba(77,157,224,0.15)',adm:'rgba(82,196,138,0.15)',mis:'rgba(155,127,232,0.15)'};
+const phBg = {sys:'rgba(77,157,224,.15)',adm:'rgba(82,196,138,.15)',mis:'rgba(155,127,232,.15)'};
 const phTx = {sys:'#4d9de0',adm:'#52c48a',mis:'#9b7fe8'};
 
-let D = {tasks: defTasks.map(t=>({...t})), skills: defSkills.map(s=>({...s})), months: {}};
+let D = {tasks:defTasks.map(t=>({...t})),skills:defSkills.map(s=>({...s})),months:{},diary:{},aiHistory:[]};
+let diaryDate = todayKey();
 
-function save() {
-  try { localStorage.setItem(SK, JSON.stringify(D)); } catch(e) {}
+function todayKey(){
+  const d = new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
-function load() {
-  try {
-    const r = localStorage.getItem(SK);
-    if (r) {
-      const p = JSON.parse(r);
-      if (p.tasks) D.tasks = p.tasks;
-      if (p.skills) D.skills = p.skills;
-      if (p.months) D.months = p.months;
-    }
-  } catch(e) {}
+function fmtKey(k){
+  const [y,m,d] = k.split('-');
+  return y+'年'+parseInt(m)+'月'+parseInt(d)+'日';
 }
+function save(){try{localStorage.setItem(SK,JSON.stringify(D));}catch(e){}}
+function load(){try{const r=localStorage.getItem(SK);if(r){const p=JSON.parse(r);if(p.tasks)D.tasks=p.tasks;if(p.skills)D.skills=p.skills;if(p.months)D.months=p.months;if(p.diary)D.diary=p.diary;if(p.aiHistory)D.aiHistory=p.aiHistory;}}catch(e){}}
 
-function init() {
+function init(){
   load();
   const now = new Date();
   document.getElementById('datelabel').textContent = now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
-  const diff = Math.ceil((new Date('2027-07-01') - now) / 864e5);
-  document.getElementById('cntdown').textContent = diff + ' 天後轉職';
+  const diff = Math.ceil((new Date('2027-07-01')-now)/864e5);
+  document.getElementById('cntdown').textContent = diff+'天後轉職';
   document.getElementById('m-days').textContent = diff;
-  let ph;
-  if (now < new Date('2026-07-01')) ph = '系統工程師';
-  else if (now < new Date('2027-07-01')) ph = '行政助理';
-  else ph = 'MIS 工程師';
+  let ph = now<new Date('2026-07-01')?'系統工程師':now<new Date('2027-07-01')?'行政助理':'MIS工程師';
   document.getElementById('m-phase').textContent = ph;
 
   // Nav
-  document.querySelectorAll('.nav-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      const sec = btn.getAttribute('data-sec');
-      document.querySelectorAll('.sec').forEach(function(s){ s.classList.remove('on'); });
-      document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('on'); });
-      document.getElementById('sec-' + sec).classList.add('on');
+  document.querySelectorAll('.nb').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      const s = btn.getAttribute('data-s');
+      document.querySelectorAll('.sec').forEach(function(x){x.classList.remove('on');});
+      document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('on');});
+      document.getElementById('sec-'+s).classList.add('on');
       btn.classList.add('on');
-      document.getElementById('scroll-area').scrollTop = 0;
+      document.getElementById('scroll').scrollTop=0;
     });
   });
 
-  document.getElementById('btn-add').addEventListener('click', addTask);
-  document.getElementById('new-text').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') addTask();
-  });
+  document.getElementById('btn-add').addEventListener('click',addTask);
+  document.getElementById('new-text').addEventListener('keydown',function(e){if(e.key==='Enter')addTask();});
+  document.getElementById('btn-add-skill').addEventListener('click',addSkill);
+  document.getElementById('new-skill-name').addEventListener('keydown',function(e){if(e.key==='Enter')addSkill();});
+  document.getElementById('btn-save-diary').addEventListener('click',saveDiary);
+  document.getElementById('btn-prev-day').addEventListener('click',function(){offsetDiary(-1);});
+  document.getElementById('btn-next-day').addEventListener('click',function(){offsetDiary(1);});
+  document.getElementById('btn-today').addEventListener('click',function(){diaryDate=todayKey();loadDiaryEditor();});
+  document.getElementById('btn-ai').addEventListener('click',runAI);
 
+  loadDiaryEditor();
   renderAll();
 }
 
-function renderAll() {
+function renderAll(){
   renderDashboard();
   renderTasks();
   renderSkills();
   renderMonths();
+  renderDiaryHistory();
+  renderAIHistory();
 }
 
-function renderDashboard() {
-  const done = D.tasks.filter(function(t){ return t.done; }).length;
+function renderDashboard(){
+  const done = D.tasks.filter(function(t){return t.done;}).length;
   document.getElementById('m-done').textContent = done;
-  const avg = Math.round(D.skills.reduce(function(s,sk){ return s + sk.pct; }, 0) / D.skills.length);
+  const avg = D.skills.length ? Math.round(D.skills.reduce(function(s,sk){return s+sk.pct;},0)/D.skills.length) : 0;
   document.getElementById('m-skill').textContent = avg;
+  // Skill summary
   const el = document.getElementById('skill-summary');
-  el.innerHTML = D.skills.map(function(s) {
-    return '<div class="prow"><div class="plabel">' + s.name + '</div><div class="ptrack"><div class="pfill" style="width:' + s.pct + '%;background:' + s.color + '"></div></div><div class="ppct">' + s.pct + '%</div></div>';
+  el.innerHTML = D.skills.map(function(s){
+    return '<div class="prow"><div class="plabel">'+s.name+'</div><div class="ptrack"><div class="pfill" style="width:'+s.pct+'%;background:'+s.color+'"></div></div><div class="ppct">'+s.pct+'%</div></div>';
+  }).join('');
+  // Recent diary
+  const rd = document.getElementById('recent-diary');
+  const keys = Object.keys(D.diary).sort().reverse().slice(0,3);
+  if(!keys.length){rd.innerHTML='<div class="empty">尚無學習記錄</div>';return;}
+  rd.innerHTML = keys.map(function(k){
+    const e = D.diary[k];
+    const preview = (e.learn||e.note||'').substring(0,50);
+    return '<div class="history-item"><div class="hi-date">'+fmtKey(k)+'</div><div class="hi-preview">'+preview+(preview.length>=50?'...':'')+'</div></div>';
   }).join('');
 }
 
-function renderTasks() {
+function renderTasks(){
   const list = document.getElementById('task-list');
-  if (!D.tasks.length) { list.innerHTML = '<div class="empty">還沒有任務，新增一個吧！</div>'; return; }
-  list.innerHTML = D.tasks.map(function(t, i) {
-    return '<div class="titem" data-i="' + i + '"><div class="tcheck' + (t.done ? ' on' : '') + '">' + (t.done ? '✓' : '') + '</div><div class="ttext' + (t.done ? ' done' : '') + '">' + t.text + '</div><span class="ttag ' + (tagCls[t.tag] || 'tg-work') + '">' + (tagLabel[t.tag] || t.tag) + '</span></div>';
-  }).join('');
-  list.querySelectorAll('.titem').forEach(function(el) {
-    el.addEventListener('click', function() {
-      const i = parseInt(el.getAttribute('data-i'));
-      D.tasks[i].done = !D.tasks[i].done;
-      save(); renderAll();
-    });
-  });
-}
-
-function addTask() {
-  const inp = document.getElementById('new-text');
-  const tag = document.getElementById('new-tag').value;
-  const txt = inp.value.trim();
-  if (!txt) return;
-  D.tasks.push({id: Date.now(), text: txt, tag: tag, done: false});
-  inp.value = '';
-  save(); renderAll();
-}
-
-function renderSkills() {
-  const grid = document.getElementById('skill-grid');
-  grid.innerHTML = D.skills.map(function(s, i) {
-    return '<div class="scard"><div class="srow"><div class="sname">' + s.name + '</div><div class="spct">' + s.pct + '%</div></div><div class="strack"><div class="sfill" style="width:' + s.pct + '%;background:' + s.color + '"></div></div><div class="sadj"><button class="sadj-btn" data-i="' + i + '" data-d="-5">−</button><button class="sadj-btn" data-i="' + i + '" data-d="5">＋</button></div></div>';
-  }).join('');
-  grid.querySelectorAll('.sadj-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const i = parseInt(btn.getAttribute('data-i'));
-      const d = parseInt(btn.getAttribute('data-d'));
-      D.skills[i].pct = Math.max(0, Math.min(100, D.skills[i].pct + d));
-      save(); renderAll();
-    });
-  });
-}
-
-function renderMonths() {
-  const el = document.getElementById('month-rows');
-  el.innerHTML = months.map(function(m) {
-    const d = Object.assign({}, m.def, D.months[m.key] || {});
-    return '<div class="mrow">' +
-      '<div class="mlbl" style="background:' + phBg[m.phase] + ';color:' + phTx[m.phase] + '">' + m.label + '</div>' +
-      '<div class="mcell' + (d.work ? ' has' : '') + '" contenteditable="true" data-key="' + m.key + '" data-field="work">' + (d.work || '') + '</div>' +
-      '<div class="mcell' + (d.study ? ' has' : '') + '" contenteditable="true" data-key="' + m.key + '" data-field="study">' + (d.study || '') + '</div>' +
-      '<div class="mcell' + (d.mis ? ' has' : '') + '" contenteditable="true" data-key="' + m.key + '" data-field="mis">' + (d.mis || '') + '</div>' +
+  const cnt = document.getElementById('task-count');
+  const done = D.tasks.filter(function(t){return t.done;}).length;
+  cnt.textContent = done+'/'+D.tasks.length;
+  if(!D.tasks.length){list.innerHTML='<div class="empty">沒有任務，新增一個吧！</div>';return;}
+  list.innerHTML = D.tasks.map(function(t,i){
+    return '<div class="titem">'+
+      '<div class="tcheck'+(t.done?' on':'')+'" data-ci="'+i+'">'+(t.done?'✓':'')+'</div>'+
+      '<div class="ttext'+(t.done?' done':'')+'" data-ti="'+i+'">'+t.text+'</div>'+
+      '<span class="ttag '+(tagCls[t.tag]||'tg-work')+'">'+(tagLabel[t.tag]||t.tag)+'</span>'+
+      '<button class="tdel" data-di="'+i+'">✕</button>'+
     '</div>';
   }).join('');
-  el.querySelectorAll('.mcell').forEach(function(cell) {
-    cell.addEventListener('blur', function() {
-      const key = cell.getAttribute('data-key');
-      const field = cell.getAttribute('data-field');
-      if (!D.months[key]) D.months[key] = {};
-      D.months[key][field] = cell.textContent.trim();
+  list.querySelectorAll('.tcheck').forEach(function(el){
+    el.addEventListener('click',function(){
+      const i=parseInt(el.getAttribute('data-ci'));
+      D.tasks[i].done=!D.tasks[i].done;save();renderAll();
+    });
+  });
+  list.querySelectorAll('.ttext').forEach(function(el){
+    el.addEventListener('click',function(){
+      const i=parseInt(el.getAttribute('data-ti'));
+      D.tasks[i].done=!D.tasks[i].done;save();renderAll();
+    });
+  });
+  list.querySelectorAll('.tdel').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      const i=parseInt(el.getAttribute('data-di'));
+      if(confirm('刪除這個任務？')){}else{return;}
+      D.tasks.splice(i,1);save();renderAll();
+    });
+  });
+}
+
+function addTask(){
+  const inp=document.getElementById('new-text');
+  const tag=document.getElementById('new-tag').value;
+  const txt=inp.value.trim();
+  if(!txt)return;
+  D.tasks.push({id:Date.now(),text:txt,tag:tag,done:false});
+  inp.value='';save();renderAll();
+}
+
+function renderSkills(){
+  const grid=document.getElementById('skill-grid');
+  grid.innerHTML = D.skills.map(function(s,i){
+    return '<div class="scard">'+
+      '<div class="srow">'+
+        '<input class="sname-input" value="'+s.name+'" data-ni="'+i+'" readonly>'+
+        '<span class="spct">'+s.pct+'%</span>'+
+      '</div>'+
+      '<div class="strack"><div class="sfill" style="width:'+s.pct+'%;background:'+s.color+'"></div></div>'+
+      '<div class="sadj">'+
+        '<button class="sadj-btn" data-si="'+i+'" data-d="-5">−</button>'+
+        '<button class="sadj-btn" data-si="'+i+'" data-d="5">＋</button>'+
+        '<button class="sdel" data-sdi="'+i+'">✕</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+
+  grid.querySelectorAll('.sname-input').forEach(function(inp){
+    inp.addEventListener('dblclick',function(){inp.removeAttribute('readonly');inp.focus();});
+    inp.addEventListener('blur',function(){
+      inp.setAttribute('readonly','');
+      const i=parseInt(inp.getAttribute('data-ni'));
+      D.skills[i].name=inp.value.trim()||D.skills[i].name;
+      save();renderAll();
+    });
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter')inp.blur();});
+  });
+  grid.querySelectorAll('.sadj-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      const i=parseInt(btn.getAttribute('data-si'));
+      const d=parseInt(btn.getAttribute('data-d'));
+      D.skills[i].pct=Math.max(0,Math.min(100,D.skills[i].pct+d));
+      save();renderAll();
+    });
+  });
+  grid.querySelectorAll('.sdel').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      const i=parseInt(btn.getAttribute('data-sdi'));
+      if(!confirm('刪除「'+D.skills[i].name+'」？'))return;
+      D.skills.splice(i,1);save();renderAll();
+    });
+  });
+}
+
+function addSkill(){
+  const inp=document.getElementById('new-skill-name');
+  const name=inp.value.trim();
+  if(!name)return;
+  const color=SKILL_COLORS[D.skills.length%SKILL_COLORS.length];
+  D.skills.push({id:Date.now(),name:name,pct:0,color:color});
+  inp.value='';save();renderAll();
+}
+
+function renderMonths(){
+  const el=document.getElementById('month-rows');
+  el.innerHTML=months.map(function(m){
+    const d=Object.assign({},m.def,D.months[m.key]||{});
+    return '<div class="mrow">'+
+      '<div class="mlbl" style="background:'+phBg[m.phase]+';color:'+phTx[m.phase]+'">'+m.label+'</div>'+
+      '<div class="mcell'+(d.work?' has':'')+'" contenteditable="true" data-key="'+m.key+'" data-field="work">'+(d.work||'')+'</div>'+
+      '<div class="mcell'+(d.study?' has':'')+'" contenteditable="true" data-key="'+m.key+'" data-field="study">'+(d.study||'')+'</div>'+
+      '<div class="mcell'+(d.mis?' has':'')+'" contenteditable="true" data-key="'+m.key+'" data-field="mis">'+(d.mis||'')+'</div>'+
+    '</div>';
+  }).join('');
+  el.querySelectorAll('.mcell').forEach(function(cell){
+    cell.addEventListener('blur',function(){
+      const key=cell.getAttribute('data-key');
+      const field=cell.getAttribute('data-field');
+      if(!D.months[key])D.months[key]={};
+      D.months[key][field]=cell.textContent.trim();
       save();
     });
+  });
+}
+
+function offsetDiary(delta){
+  const d=new Date(diaryDate+'T00:00:00');
+  d.setDate(d.getDate()+delta);
+  diaryDate=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  loadDiaryEditor();
+}
+
+function loadDiaryEditor(){
+  const isToday = diaryDate===todayKey();
+  document.getElementById('diary-date-label').textContent = isToday?'今天（'+fmtKey(diaryDate)+'）':fmtKey(diaryDate);
+  const e=D.diary[diaryDate]||{};
+  document.getElementById('diary-learn').value=e.learn||'';
+  document.getElementById('diary-note').value=e.note||'';
+}
+
+function saveDiary(){
+  const learn=document.getElementById('diary-learn').value.trim();
+  const note=document.getElementById('diary-note').value.trim();
+  if(!learn&&!note){alert('請先填寫學習內容或日記！');return;}
+  D.diary[diaryDate]={learn:learn,note:note,saved:Date.now()};
+  save();renderAll();
+  const btn=document.getElementById('btn-save-diary');
+  btn.textContent='✓ 已儲存';setTimeout(function(){btn.textContent='儲存今日記錄';},1500);
+}
+
+function renderDiaryHistory(){
+  const el=document.getElementById('diary-history');
+  const keys=Object.keys(D.diary).sort().reverse();
+  if(!keys.length){el.innerHTML='<div class="empty">尚無記錄</div>';return;}
+  el.innerHTML=keys.map(function(k){
+    const e=D.diary[k];
+    const preview=(e.learn||e.note||'').substring(0,60);
+    return '<div class="history-item" data-hk="'+k+'">'+
+      '<div class="hi-date">'+fmtKey(k)+'</div>'+
+      '<div class="hi-preview">'+preview+(preview.length>=60?'...':'')+'</div>'+
+    '</div>';
+  }).join('');
+  el.querySelectorAll('.history-item').forEach(function(item){
+    item.addEventListener('click',function(){
+      const k=item.getAttribute('data-hk');
+      diaryDate=k;loadDiaryEditor();
+      document.getElementById('scroll').scrollTop=0;
+    });
+  });
+}
+
+function renderAIHistory(){
+  const el=document.getElementById('ai-history');
+  if(!D.aiHistory.length){el.innerHTML='<div class="empty">尚無分析記錄</div>';return;}
+  el.innerHTML=D.aiHistory.slice().reverse().map(function(a){
+    return '<div class="history-item">'+
+      '<div class="hi-date">'+a.date+'</div>'+
+      '<div style="font-size:12px;color:var(--text2);line-height:1.6;margin-top:5px;white-space:pre-wrap">'+a.summary+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function buildAIPrompt(){
+  const diaryEntries = Object.keys(D.diary).sort().map(function(k){
+    const e=D.diary[k];
+    return '【'+fmtKey(k)+'】\n學習：'+(e.learn||'（無）')+'\n心得：'+(e.note||'（無）');
+  }).join('\n\n');
+
+  const skillsText = D.skills.map(function(s){
+    return s.name+'：'+s.pct+'%';
+  }).join('、');
+
+  const doneTasks = D.tasks.filter(function(t){return t.done;}).map(function(t){return t.text;}).join('、');
+  const pendingTasks = D.tasks.filter(function(t){return !t.done;}).map(function(t){return t.text;}).join('、');
+
+  return '你是一位 MIS 職涯顧問。以下是使用者的學習與工作資料，請用繁體中文進行分析，並分三個段落回覆：\n\n'+
+    '一、【今日/近期學習摘要】：統整最近幾筆學習記錄的重點與成果。\n'+
+    '二、【整體技能進度分析】：根據技能進度，點出哪些已有基礎、哪些還不足。\n'+
+    '三、【建議加強方向】：根據 MIS 工程師所需能力，具體建議接下來 1～2 個月應優先加強哪些技能，以及學習方式。\n\n'+
+    '---\n'+
+    '【技能進度】\n'+skillsText+'\n\n'+
+    '【已完成任務】\n'+(doneTasks||'（無）')+'\n\n'+
+    '【待完成任務】\n'+(pendingTasks||'（無）')+'\n\n'+
+    '【學習日記記錄】\n'+(diaryEntries||'（尚無記錄）');
+}
+
+function runAI(){
+  const resultEl=document.getElementById('ai-result');
+  const loadingEl=document.getElementById('ai-loading');
+  resultEl.classList.remove('on');
+  loadingEl.classList.add('on');
+  document.getElementById('btn-ai').disabled=true;
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      messages:[{role:'user',content:buildAIPrompt()}]
+    })
+  }).then(function(r){return r.json();})
+  .then(function(data){
+    loadingEl.classList.remove('on');
+    document.getElementById('btn-ai').disabled=false;
+    const text = (data.content||[]).map(function(c){return c.text||'';}).join('');
+    if(!text){resultEl.textContent='分析失敗，請稍後再試。';resultEl.classList.add('on');return;}
+    resultEl.textContent=text;
+    resultEl.classList.add('on');
+    const now=new Date();
+    D.aiHistory.push({
+      date:now.toLocaleDateString('zh-TW',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}),
+      summary:text
+    });
+    if(D.aiHistory.length>10)D.aiHistory.shift();
+    save();renderAIHistory();
+  }).catch(function(){
+    loadingEl.classList.remove('on');
+    document.getElementById('btn-ai').disabled=false;
+    resultEl.textContent='網路錯誤，請確認連線後再試。';
+    resultEl.classList.add('on');
   });
 }
 
